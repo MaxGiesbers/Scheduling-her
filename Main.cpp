@@ -1,10 +1,4 @@
-/*
- * Main.cpp
- *
- *  Created on: 18 sep. 2017
- *      Author: max_g
- */
-
-
-
-
+int main(int argc, char **argv)
+{
+    return 0;
+}
