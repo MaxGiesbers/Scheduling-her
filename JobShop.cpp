@@ -5,8 +5,8 @@
 JobShop::JobShop(const std::string &mInput)
 	: input(mInput)
 {
-	parseJobsConfig();
-	parseMachinesConfig();
+	ParseJobsConfig();
+	ParseMachinesConfig();
 }
 
 JobShop::~JobShop()
@@ -15,7 +15,7 @@ JobShop::~JobShop()
 
 bool JobShop::checkAvailableMachines(unsigned short machineNumber)
 {
-	for(auto m : machineVector)
+	for (auto m : machineVector)
 	{
 		if (m.GetMachineId() == machineNumber && m.GetOccupiedUntil() <= currentTime)
 		{
@@ -27,36 +27,14 @@ bool JobShop::checkAvailableMachines(unsigned short machineNumber)
 
 void JobShop::SortJobs()
 {
-	std::sort(jobVector.begin(), jobVector.end(), [](Job& a, Job& b) -> bool
-	{
+	std::sort(jobVector.begin(), jobVector.end(), [](Job &a, Job &b) -> bool {
 		return a.ReturnTotalTime() < b.ReturnTotalTime();
 	});
 }
 
-
-
-
-void JobShop::parseJobsConfig()
+void JobShop::ParseJobsConfig()
 {
 	std::regex rgx("[0-9 ]+");
-	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
-	std::regex_iterator<std::string::iterator> regexEnd;
-	unsigned short lineNumber = 0;
-
-	while (regexIterator != regexEnd)
-	{
-		if (lineNumber != 0)
-		{
-			jobVector.push_back(Job(lineNumber - 1, regexIterator->str()));
-		}
-		++lineNumber;
-		++regexIterator;
-	}
-}
-
-void JobShop::parseMachinesConfig()
-{
-	std::regex rgx("[0-9]+");
 	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
 	std::regex_iterator<std::string::iterator> regexEnd;
 	unsigned short matches = 0;
@@ -65,7 +43,25 @@ void JobShop::parseMachinesConfig()
 	{
 		if (matches != 0)
 		{
-			int machines = std::stoi(regexIterator->str());
+			jobVector.push_back(Job(matches - 1, regexIterator->str()));
+		}
+		++matches;
+		++regexIterator;
+	}
+}
+
+void JobShop::ParseMachinesConfig()
+{
+	std::regex rgx("[0-9]+");
+	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
+	std::regex_iterator<std::string::iterator> regexEnd;
+	unsigned short matches = 0;
+
+	while (regexIterator != regexEnd)
+	{
+		if (matches == 1)
+		{
+			unsigned short machines = std::stoi(regexIterator->str());
 			for (unsigned short i = 0; i < machines; i++)
 			{
 				machineVector.push_back(Machine(i, 0));
@@ -94,4 +90,22 @@ const std::vector<Job> JobShop::GetJobVector() const
 const std::vector<Machine> &JobShop::GetMachineVector() const
 {
 	return machineVector;
+}
+
+void JobShop::PrintAllConfigData()
+{
+	for (auto j : jobVector)
+	{
+		std::cout << "JobID: " << j.GetJobID() << std::endl;
+		for (auto t : j.GetTaskVector())
+		{
+			std::cout << "TaskID: " << t.getTaskID() << " MachineID " << t.getMachineID()
+					  << " TaskDuration " << t.getTaskDuration() << " TaskScheduled " << t.getTaskScheduled() << std::endl;
+		}
+	}
+
+	for (auto m : machineVector)
+	{
+		std::cout << "MachineID " << m.GetMachineId() << " OccupiedUntil " << m.GetOccupiedUntil() << std::endl;
+	}
 }

@@ -1,14 +1,12 @@
 #include "Task.h"
 
 Task::Task(unsigned short aTaskID, unsigned short aMachineID, unsigned short aTaskDuration, bool aTaskScheduled)
-:taskID(aTaskID), machineID(aMachineID), taskDuration(aTaskDuration), taskScheduled(aTaskScheduled)
+    : taskID(aTaskID), machineID(aMachineID), taskDuration(aTaskDuration), taskScheduled(aTaskScheduled)
 {
-
 }
 
 Task::~Task()
 {
-
 }
 
 unsigned short Task::getTaskID() const

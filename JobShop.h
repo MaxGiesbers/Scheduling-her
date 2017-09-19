@@ -13,8 +13,8 @@ private:
 	std::string input;
 	std::vector<Job> jobVector;
 	std::vector<Machine> machineVector;
-	void parseJobsConfig();
-	void parseMachinesConfig();
+	void ParseJobsConfig();
+	void ParseMachinesConfig();
 
 public:
 	JobShop(const std::string &mInput);
@@ -25,4 +25,7 @@ public:
 	void SetCurrentTime(unsigned short aCurrentTime);
 	const std::vector<Job> GetJobVector() const;
 	const std::vector<Machine> &GetMachineVector() const;
+
+	//testing
+	void PrintAllConfigData();
 };
