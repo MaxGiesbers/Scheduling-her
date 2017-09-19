@@ -29,7 +29,7 @@ void JobShop::SortJobs()
 {
 	std::sort(jobVector.begin(), jobVector.end(), [](Job& a, Job& b) -> bool
 	{
-		return a.ReturnTotalTime() < b.ReturnTotalTime();
+		return a.ReturnTotalTime() < b.ReturnTotalTime() && a.GetJobId() < b.GetJobId();
 	});
 }
 
