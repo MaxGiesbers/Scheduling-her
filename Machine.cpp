@@ -1,7 +1,8 @@
 #include "Machine.h"
+#include <iostream>
 
-Machine::Machine(unsigned short aMachineID, unsigned short aOccupiedUntil):
-machineID(aMachineID), occupiedUntil(aOccupiedUntil)
+Machine::Machine(unsigned short aMachineID, unsigned short aOccupiedUntil)
+:machineID(aMachineID), occupiedUntil(aOccupiedUntil)
 {
 }
 
