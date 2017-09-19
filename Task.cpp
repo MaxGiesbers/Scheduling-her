@@ -9,22 +9,22 @@ Task::~Task()
 {
 }
 
-unsigned short Task::getTaskID() const
+unsigned short Task::GetTaskID() const
 {
     return taskID;
 }
 
-unsigned short Task::getMachineID() const
+unsigned short Task::GetMachineID() const
 {
     return machineID;
 }
 
-unsigned short Task::getTaskDuration() const
+unsigned short Task::GetTaskDuration() const
 {
     return taskDuration;
 }
 
-bool Task::getTaskScheduled() const
+bool Task::GetTaskScheduled() const
 {
     return taskScheduled;
 }

@@ -2,7 +2,7 @@
 #include "JobShop.h"
 #include "Machine.h"
 
-JobShop::JobShop(const std::string &mInput) : input(mInput)
+JobShop::JobShop(const std::string &mInput, unsigned short aCurrentTime) : input(mInput), currentTime(aCurrentTime)
 {
 	ParseJobsConfig();
 	ParseMachinesConfig();
@@ -28,13 +28,12 @@ void JobShop::RunSchedulingAlgorithm()
 
 					Task currentTask = j.GetFirstUnscheduledTask();
 
-					if (currentTask.getMachineID() == m.GetMachineId())
+					if (currentTask.GetMachineID() == m.GetMachineId())
 					{
-						m.SetOccupiedUntil(currentTime + currentTask.getTaskDuration());
-						j.SetTask(currentTask.getTaskID());
-						j.SetJobEndTime(currentTask.getTaskDuration() + currentTime);
+						m.SetOccupiedUntil(currentTime + currentTask.GetTaskDuration());
+						j.SetTask(currentTask.GetTaskID());
+						j.SetJobEndTime(currentTask.GetTaskDuration() + currentTime);
 					}
-					break;
 				}
 			}
 		}
@@ -59,7 +58,7 @@ bool JobShop::checkAvailableMachines(unsigned short machineNumber)
 void JobShop::SortJobs()
 {
 	std::sort(jobVector.begin(), jobVector.end(), [](const Job &a, const Job &b) {
-		return a.ReturnTotalTime() > b.ReturnTotalTime() || (a.ReturnTotalTime() == b.ReturnTotalTime() && a.GetJobId() < b.GetJobId());
+		return a.ReturnTotalTime() > b.ReturnTotalTime() || (a.ReturnTotalTime() == b.ReturnTotalTime() && a.GetJobID() < b.GetJobID());
 	});
 }
 
@@ -74,7 +73,7 @@ void JobShop::ParseJobsConfig()
 	{
 		if (matches != 0)
 		{
-			jobVector.push_back(Job(matches - 1, regexIterator->str()));
+			jobVector.push_back(Job(regexIterator->str(),matches - 1));
 		}
 		++matches;
 		++regexIterator;
@@ -127,11 +126,11 @@ void JobShop::PrintAllConfigData()
 {
 	for (auto j : jobVector)
 	{
-		std::cout << "JobID: " << j.GetJobId() << std::endl;
+		std::cout << "JobID: " << j.GetJobID() << std::endl;
 		for (auto t : j.GetTaskVector())
 		{
-			std::cout << "TaskID: " << t.getTaskID() << " MachineID " << t.getMachineID()
-					  << " TaskDuration " << t.getTaskDuration() << " TaskScheduled " << t.getTaskScheduled() << std::endl;
+			std::cout << "TaskID: " << t.GetTaskID() << " MachineID " << t.GetMachineID()
+					  << " TaskDuration " << t.GetTaskDuration() << " TaskScheduled " << t.GetTaskScheduled() << std::endl;
 		}
 	}
 
@@ -151,6 +150,6 @@ void JobShop::PrintResults()
 
 	for (Job &j : jobVector)
 	{
-		std::cout << j.GetJobId() << "\t" << j.GetStartTime() << "\t" << j.GetEndTime() << std::endl;
+		std::cout << j.GetJobID() << "\t" << j.GetStartTime() << "\t" << j.GetEndTime() << std::endl;
 	}
 }
