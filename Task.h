@@ -1,8 +1,10 @@
+#pragma once
+
 class Task{
 
 private:
-    unsigned short taskID;
-    unsigned short machineID;
+    const unsigned short taskID;
+    const unsigned short machineID;
     unsigned short taskDuration;
     bool taskScheduled;
 

@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include "Task.h"
 
@@ -5,7 +6,7 @@ class Job{
 
 private:
     std::vector<Task> taskVector;
-    unsigned short jobID;
+    const unsigned short jobID;
 
 public:
     Job(unsigned short aJobID = 0);

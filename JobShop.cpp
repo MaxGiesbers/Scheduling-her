@@ -1,15 +1,8 @@
-/*
- * JobShop.cpp
- *
- *  Created on: 19 sep. 2017
- *      Author: max_g
- */
-
 #include "JobShop.h"
-#include <vector>
 #include "Machine.h"
 
-JobShop::JobShop(unsigned short aCurrentTime = 0):currentTime(aCurrentTime)
+JobShop::JobShop(unsigned short aCurrentTime)
+:currentTime(aCurrentTime)
 {
 
 	//set values in vectors.
@@ -39,4 +32,3 @@ const std::vector<Machine>& JobShop::GetMachineVector() const
 JobShop::~JobShop()
 {
 }
-

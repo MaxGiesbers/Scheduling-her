@@ -1,12 +1,7 @@
-/*
- * JobShop.h
- *
- *  Created on: 19 sep. 2017
- *      Author: max_g
- */
-
-#ifndef JOBSHOP_H_
-#define JOBSHOP_H_
+#pragma once
+#include <vector>
+#include "Job.h"
+#include "Machine.h"
 
 class JobShop
 {
@@ -28,5 +23,3 @@ public:
 	std::vector<Job> GetJobVector() const;
 	const std::vector<Machine>& GetMachineVector() const;
 };
-
-#endif /* JOBSHOP_H_ */
