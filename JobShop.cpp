@@ -2,8 +2,8 @@
 #include "JobShop.h"
 #include "Machine.h"
 
-JobShop::JobShop(const std::string &mInput)
-	: input(mInput)
+JobShop::JobShop(const std::string &mInput) :
+	input(mInput)
 {
 	parseJobsConfig();
 	parseMachinesConfig();
@@ -32,9 +32,6 @@ void JobShop::SortJobs()
 		return a.ReturnTotalTime() < b.ReturnTotalTime();
 	});
 }
-
-
-
 
 void JobShop::parseJobsConfig()
 {
@@ -66,7 +63,7 @@ void JobShop::parseMachinesConfig()
 		if (matches != 0)
 		{
 			int machines = std::stoi(regexIterator->str());
-			for (unsigned short i = 0; i < machines; i++)
+			for(unsigned short i = 0; i < machines; i++)
 			{
 				machineVector.push_back(Machine(i, 0));
 			}
@@ -94,4 +91,19 @@ const std::vector<Job> JobShop::GetJobVector() const
 const std::vector<Machine> &JobShop::GetMachineVector() const
 {
 	return machineVector;
+}
+
+bool JobShop::AllJobsScheduled() const
+{
+
+	return std::all_of(jobVector.begin(), jobVector.end(), [](const Job& j)
+	{	return j.AllTasksScheduled() == true;});
+}
+
+void JobShop::PrintResults(){
+
+	for(Job &j : jobVector)
+	{
+		std::cout << j.GetJobId() << " " << j.GetStartTime() << " " << j.GetEndTime() << std::endl;
+	}
 }

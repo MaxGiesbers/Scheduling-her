@@ -25,4 +25,6 @@ public:
 	void SetCurrentTime(unsigned short aCurrentTime);
 	const std::vector<Job> GetJobVector() const;
 	const std::vector<Machine> &GetMachineVector() const;
+	bool AllJobsScheduled ()const ;
+	void PrintResults();
 };
