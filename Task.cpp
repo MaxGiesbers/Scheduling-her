@@ -28,3 +28,8 @@ bool Task::getTaskScheduled() const
 {
     return taskScheduled;
 }
+
+void Task::SetTaskScheduled(bool aTaskScheduled)
+{
+    taskScheduled = aTaskScheduled;
+}

@@ -19,10 +19,14 @@ public:
 	Job(unsigned short aJobID, const std::string &mInput);
 	virtual ~Job();
 	std::vector<Task> &GetTaskVector();
-	unsigned short ReturnTotalTime();
+	unsigned short ReturnTotalTime() const;
 	Job& operator=(const Job &b);
 	bool AllTasksScheduled () const;
 	unsigned short GetEndTime() const;
 	unsigned short GetJobId() const;
 	unsigned short GetStartTime() const;
+	Task GetFirstUnscheduledTask();
+	void SetJobEndTime(unsigned short anEndTime);
+	void SetJobStartTime(unsigned short aStartTime);
+	void SetTask(unsigned short taskId);
 };

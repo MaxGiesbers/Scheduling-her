@@ -27,6 +27,7 @@ public:
 	const std::vector<Machine> &GetMachineVector() const;
 	bool AllJobsScheduled ()const ;
 	void PrintResults();
+	void RunSchedulingAlgorithm();
 
 	//testing
 	void PrintAllConfigData();

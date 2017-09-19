@@ -15,4 +15,5 @@ public:
     unsigned short getMachineID() const;
     unsigned short getTaskDuration() const;
     bool getTaskScheduled() const;
+    void SetTaskScheduled(bool aTaskScheduled);
 };

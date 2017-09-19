@@ -41,7 +41,7 @@ void Job::ParseTaskConfig()
 	}
 }
 
-unsigned short Job::ReturnTotalTime()
+unsigned short Job::ReturnTotalTime() const
 {
 	unsigned short totalTime = 0;
 	for (auto &e : taskVector)
@@ -82,7 +82,37 @@ unsigned short Job::GetStartTime() const
 
 bool Job::AllTasksScheduled() const
 {
-	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task& t)
-	{	return t.getTaskScheduled() == true;});
+	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task &t) { return t.getTaskScheduled() == true; });
 }
 
+Task Job::GetFirstUnscheduledTask()
+{
+	for (auto t : taskVector)
+	{
+		if (t.getTaskScheduled() == false)
+		{
+			return t;
+		}
+	}
+}
+
+void Job::SetJobEndTime(unsigned short anEndTime)
+{
+	endTime = anEndTime;
+}
+
+void Job::SetJobStartTime(unsigned short aStartTime)
+{
+	startTime = aStartTime;
+}
+
+void Job::SetTask(unsigned short taskId)
+{
+	for (auto &t : taskVector)
+	{
+		if(t.getTaskID() == taskId)
+		{
+			t.SetTaskScheduled(true);
+		}
+	}
+}
