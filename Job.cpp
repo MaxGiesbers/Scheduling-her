@@ -1,8 +1,8 @@
 #include <regex>
 #include "Job.h"
 
-Job::Job(const std::string &mInput,unsigned short aJobID , unsigned short aStartTime, unsigned short aEndtime) :
-input(mInput), jobID(aJobID)
+Job::Job(const std::string &mInput,unsigned short aJobID , unsigned short aStartTime, unsigned short aEndTime) :
+input(mInput), jobID(aJobID),startTime(aStartTime), endTime(aEndTime)
 {
 	ParseTaskConfig();
 }
