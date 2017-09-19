@@ -1,7 +1,10 @@
 #pragma once
-#include <vector>
 #include "Job.h"
 #include "Machine.h"
+
+#include <vector>
+#include <algorithm>
+#include <functional>
 
 class JobShop
 {
@@ -16,7 +19,7 @@ public:
 	virtual ~JobShop();
 
 	void SortJobs();
-	void checkAvailableMachines();
+	bool checkAvailableMachines(unsigned short machineNumber);
 
 	unsigned short GetCurrentTime() const;
 	void SetCurrentTime(unsigned short currentTime);

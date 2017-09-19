@@ -1,7 +1,7 @@
 #include "Job.h"
 
-Job::Job(unsigned short aJobID)
-:jobID(aJobID)
+Job::Job(unsigned short aJobID) :
+	jobID(aJobID)
 {
 
 }
@@ -11,8 +11,26 @@ Job::~Job()
 
 }
 
-
-std::vector<Task>& Job::getTaskVector()
+unsigned short Job::ReturnTotalTime()
 {
-    return taskVector;
+	unsigned short totalTime = 0;
+	for(auto & e : taskVector)
+	{
+		totalTime += e.getTaskDuration();
+	}
+	return totalTime;
+}
+
+std::vector<Task>& Job::GetTaskVector()
+{
+	return taskVector;
+}
+
+Job& Job::operator =(const Job& b)
+{
+	if (this != &b)
+	{
+		jobID = b.jobID;
+	}
+	return *this;
 }
