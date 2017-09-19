@@ -1,8 +1,15 @@
+#include <regex>
 #include "JobShop.h"
 #include "Machine.h"
 
-JobShop::JobShop(unsigned short aCurrentTime) :
-	currentTime(aCurrentTime)
+JobShop::JobShop(const std::string &mInput)
+	: input(mInput)
+{
+	parseJobsConfig();
+	parseMachinesConfig();
+}
+
+JobShop::~JobShop()
 {
 }
 
@@ -26,26 +33,65 @@ void JobShop::SortJobs()
 	});
 }
 
+
+
+
+void JobShop::parseJobsConfig()
+{
+	std::regex rgx("[0-9 ]+");
+	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
+	std::regex_iterator<std::string::iterator> regexEnd;
+	unsigned short lineNumber = 0;
+
+	while (regexIterator != regexEnd)
+	{
+		if (lineNumber != 0)
+		{
+			jobVector.push_back(Job(lineNumber - 1, regexIterator->str()));
+		}
+		++lineNumber;
+		++regexIterator;
+	}
+}
+
+void JobShop::parseMachinesConfig()
+{
+	std::regex rgx("[0-9]+");
+	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
+	std::regex_iterator<std::string::iterator> regexEnd;
+	unsigned short matches = 0;
+
+	while (regexIterator != regexEnd)
+	{
+		if (matches != 0)
+		{
+			int machines = std::stoi(regexIterator->str());
+			for (unsigned short i = 0; i < machines; i++)
+			{
+				machineVector.push_back(Machine(i, 0));
+			}
+		}
+		++matches;
+		++regexIterator;
+	}
+}
+
 unsigned short JobShop::GetCurrentTime() const
 {
 	return currentTime;
 }
 
-void JobShop::SetCurrentTime(unsigned short currentTime)
+void JobShop::SetCurrentTime(unsigned short aCurrentTime)
 {
-	this->currentTime = currentTime;
+	currentTime = aCurrentTime;
 }
 
-std::vector<Job> JobShop::GetJobVector() const
+const std::vector<Job> JobShop::GetJobVector() const
 {
 	return jobVector;
 }
 
-const std::vector<Machine>& JobShop::GetMachineVector() const
+const std::vector<Machine> &JobShop::GetMachineVector() const
 {
 	return machineVector;
-}
-
-JobShop::~JobShop()
-{
 }
