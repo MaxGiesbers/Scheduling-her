@@ -65,7 +65,24 @@ Job &Job::operator=(const Job &b)
 	return *this;
 }
 
-unsigned short Job::GetJobID() const
+unsigned short Job::GetEndTime() const
+{
+	return endTime;
+}
+
+unsigned short Job::GetJobId() const
 {
 	return jobID;
 }
+
+unsigned short Job::GetStartTime() const
+{
+	return startTime;
+}
+
+bool Job::AllTasksScheduled() const
+{
+	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task& t)
+	{	return t.getTaskScheduled() == true;});
+}
+

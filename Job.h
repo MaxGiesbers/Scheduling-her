@@ -3,6 +3,7 @@
 #include <vector>
 #include <numeric>
 #include "Task.h"
+#include <algorithm>
 
 class Job
 {
@@ -11,6 +12,8 @@ private:
 	unsigned short jobID;
 	std::string input;
 	void ParseTaskConfig();
+	unsigned short startTime;
+	unsigned short endTime;
 
 public:
 	Job(unsigned short aJobID, const std::string &mInput);
@@ -18,5 +21,8 @@ public:
 	std::vector<Task> &GetTaskVector();
 	unsigned short ReturnTotalTime();
 	Job& operator=(const Job &b);
-	unsigned short GetJobID() const;
+	bool AllTasksScheduled () const;
+	unsigned short GetEndTime() const;
+	unsigned short GetJobId() const;
+	unsigned short GetStartTime() const;
 };

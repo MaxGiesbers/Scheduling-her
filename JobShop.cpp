@@ -2,8 +2,8 @@
 #include "JobShop.h"
 #include "Machine.h"
 
-JobShop::JobShop(const std::string &mInput)
-	: input(mInput)
+JobShop::JobShop(const std::string &mInput) :
+	input(mInput)
 {
 	ParseJobsConfig();
 	ParseMachinesConfig();
@@ -27,8 +27,9 @@ bool JobShop::checkAvailableMachines(unsigned short machineNumber)
 
 void JobShop::SortJobs()
 {
-	std::sort(jobVector.begin(), jobVector.end(), [](Job &a, Job &b) -> bool {
-		return a.ReturnTotalTime() < b.ReturnTotalTime();
+	std::sort(jobVector.begin(), jobVector.end(), [](Job& a, Job& b) -> bool
+	{
+		return a.ReturnTotalTime() < b.ReturnTotalTime() && a.GetJobId() < b.GetJobId();
 	});
 }
 
@@ -96,7 +97,7 @@ void JobShop::PrintAllConfigData()
 {
 	for (auto j : jobVector)
 	{
-		std::cout << "JobID: " << j.GetJobID() << std::endl;
+		std::cout << "JobID: " << j.GetJobId() << std::endl;
 		for (auto t : j.GetTaskVector())
 		{
 			std::cout << "TaskID: " << t.getTaskID() << " MachineID " << t.getMachineID()
@@ -107,5 +108,19 @@ void JobShop::PrintAllConfigData()
 	for (auto m : machineVector)
 	{
 		std::cout << "MachineID " << m.GetMachineId() << " OccupiedUntil " << m.GetOccupiedUntil() << std::endl;
+	}
+}
+bool JobShop::AllJobsScheduled() const
+{
+
+	return std::all_of(jobVector.begin(), jobVector.end(), [](const Job& j)
+	{	return j.AllTasksScheduled() == true;});
+}
+
+void JobShop::PrintResults(){
+
+	for(Job &j : jobVector)
+	{
+		std::cout << j.GetJobId() << " " << j.GetStartTime() << " " << j.GetEndTime() << std::endl;
 	}
 }
