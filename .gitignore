@@ -1,1 +1,9 @@
 /Debug/
+*.o
+*.exe
+scheduling
+.cproject
+.project
+.settings/
+.vscode/
+
