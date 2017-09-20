@@ -1,14 +1,61 @@
 #include <regex>
 #include "Job.h"
 
-Job::Job(const std::string &mInput,unsigned short aJobID , unsigned short aStartTime, unsigned short aEndTime, bool aJobScheduled) :
-input(mInput), jobID(aJobID),startTime(aStartTime), endTime(aEndTime), jobScheduled(aJobScheduled)
+Job::Job(const std::string &mInput, unsigned short aJobID, unsigned short aStartTime, unsigned short aEndTime, bool aJobScheduled) : input(mInput), jobID(aJobID), startTime(aStartTime), endTime(aEndTime), jobScheduled(aJobScheduled)
 {
 	ParseTaskConfig();
 }
 
 Job::~Job()
 {
+}
+
+unsigned short Job::GetTotalJobTime() const
+{
+	unsigned short totalTime = 0;
+	for (auto &aTask : taskVector)
+	{
+		if (aTask.GetTaskScheduled() == false)
+		{
+			totalTime += aTask.GetTaskDuration();
+		}
+	}
+	return totalTime;
+}
+
+bool Job::AllTasksScheduled() const
+{
+	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task &t) { return t.GetTaskScheduled() == true; });
+}
+
+Task Job::GetFirstUnscheduledTask()
+{
+	for (auto t : taskVector)
+	{
+		if (t.GetTaskScheduled() == false)
+		{
+			return t;
+		}
+	}
+	return 0;
+}
+
+void Job::StartJob(unsigned short aStartTime)
+{
+	startTime = aStartTime;
+	jobScheduled = true;
+}
+
+void Job::ScheduleTask(unsigned short taskID, unsigned short anEndTime)
+{
+	for (auto &t : taskVector)
+	{
+		if (t.GetTaskID() == taskID)
+		{
+			t.SetTaskScheduled(true);
+		}
+	}
+	endTime = anEndTime;
 }
 
 void Job::ParseTaskConfig()
@@ -41,23 +88,10 @@ void Job::ParseTaskConfig()
 	}
 }
 
-unsigned short Job::ReturnTotalTime() const
-{
-	unsigned short totalTime = 0;
-	for(auto &aTask : taskVector)
-	{
-		if(aTask.GetTaskScheduled()==false){
-			totalTime += aTask.GetTaskDuration();
-		}
-	}
-	return totalTime;
-}
-
 std::vector<Task> &Job::GetTaskVector()
 {
 	return taskVector;
 }
-
 
 unsigned short Job::GetEndTime() const
 {
@@ -74,51 +108,7 @@ unsigned short Job::GetStartTime() const
 	return startTime;
 }
 
-bool Job::AllTasksScheduled() const
-{
-	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task &t)
-	{	return t.GetTaskScheduled() == true;});
-}
-
-Task Job::GetFirstUnscheduledTask()
-{
-	for(auto t : taskVector)
-	{
-		if (t.GetTaskScheduled() == false)
-		{
-			return t;
-		}
-	}
-	return 0;
-}
-
-void Job::SetJobEndTime(unsigned short anEndTime)
-{
-	endTime = anEndTime;
-}
-
-void Job::SetJobStartTime(unsigned short aStartTime)
-{
-	startTime = aStartTime;
-}
-
-void Job::SetTask(unsigned short taskID)
-{
-	for(auto &t : taskVector)
-	{
-		if (t.GetTaskID() == taskID)
-		{
-			t.SetTaskScheduled(true);
-		}
-	}
-}
-
-bool Job::getJobScheduled() const
+bool Job::GetJobScheduled() const
 {
 	return jobScheduled;
-}
-
-void Job::setJobScheduled(bool aJobScheduled)
-{
-	jobScheduled = aJobScheduled;
 }

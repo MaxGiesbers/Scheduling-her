@@ -1,9 +1,7 @@
 #include <regex>
 #include "JobShop.h"
-#include "Machine.h"
 
-JobShop::JobShop(const std::string &mInput, unsigned short aCurrentTime) :
-	input(mInput), currentTime(aCurrentTime)
+JobShop::JobShop(const std::string &anInput, unsigned short aCurrentTime) : input(mInput), currentTime(aCurrentTime)
 {
 	ParseJobsConfig();
 	ParseMachinesConfig();
@@ -22,31 +20,26 @@ void JobShop::RunSchedulingAlgorithm()
 		SortJobs();
 
 		//PrintAllConfigData();
-		for(auto &m : machineVector)
+		for (auto &m : machineVector)
 		{
-			for(auto &j : jobVector)
+			for (auto &j : jobVector)
 			{
 				//copy task
 				Task currentTask = j.GetFirstUnscheduledTask();
 
 				//check if the machine is available and if current job time is higher or the same as currentTime
-				if (currentTask.GetMachineID() == m.GetMachineId() && checkAvailableMachines(m.GetMachineId())
-					&& currentTime >= j.GetEndTime() && currentTask.GetTaskDuration() != 0)
+				if (currentTask.GetMachineID() == m.GetMachineID() && CheckAvailableMachines(m.GetMachineID()) && currentTime >= j.GetEndTime() && currentTask.GetTaskDuration() != 0)
 				{
-					if (j.getJobScheduled() == false)
+					if (!j.GetJobScheduled())
 					{
 						//Set job startTime
-						j.SetJobStartTime(currentTime);
-						j.setJobScheduled(true);
+						j.StartJob(currentTime);
 					}
 
 					m.SetOccupiedUntil(currentTime + currentTask.GetTaskDuration());
 
-					//set boolean of scheduled task to true
-					j.SetTask(currentTask.GetTaskID());
-
-					//set endTime jobEndtime
-					j.SetJobEndTime(currentTask.GetTaskDuration() + currentTime);
+					//set boolean of scheduled task to true and set job endtime
+					j.ScheduleTask(currentTask.GetTaskID(), currentTask.GetTaskDuration() + currentTime);
 
 					break; //nog niet gecheck of deze weg kan...
 				}
@@ -57,11 +50,19 @@ void JobShop::RunSchedulingAlgorithm()
 	PrintResults();
 }
 
-bool JobShop::checkAvailableMachines(unsigned short machineNumber)
+void JobShop::SortJobs()
 {
-	for(auto &m : machineVector)
+	std::sort(jobVector.begin(), jobVector.end(),
+			  [](const Job &a, const Job &b) {
+				  return a.GetTotalJobTime() > b.GetTotalJobTime() || (a.GetTotalJobTime() == b.GetTotalJobTime() && a.GetJobID() < b.GetJobID());
+			  });
+}
+
+bool JobShop::CheckAvailableMachines(unsigned short machineNumber)
+{
+	for (auto &m : machineVector)
 	{
-		if (m.GetMachineId() == machineNumber && m.GetOccupiedUntil() <= currentTime)
+		if (m.GetMachineID() == machineNumber && m.GetOccupiedUntil() <= currentTime)
 		{
 			return true;
 		}
@@ -69,13 +70,10 @@ bool JobShop::checkAvailableMachines(unsigned short machineNumber)
 	return false;
 }
 
-void JobShop::SortJobs()
+bool JobShop::AllJobsScheduled() const
 {
-	std::sort(jobVector.begin(), jobVector.end(),
-		[](const Job &a, const Job &b)
-		{
-			return a.ReturnTotalTime() > b.ReturnTotalTime() || (a.ReturnTotalTime() == b.ReturnTotalTime() && a.GetJobID() < b.GetJobID());
-		});
+
+	return std::all_of(jobVector.begin(), jobVector.end(), [](const Job &j) { return j.AllTasksScheduled() == true; });
 }
 
 void JobShop::ParseJobsConfig()
@@ -108,7 +106,7 @@ void JobShop::ParseMachinesConfig()
 		if (matches == 1)
 		{
 			unsigned short machines = std::stoi(regexIterator->str());
-			for(unsigned short i = 0; i < machines; i++)
+			for (unsigned short i = 0; i < machines; i++)
 			{
 				machineVector.push_back(Machine(i, 0));
 			}
@@ -118,61 +116,34 @@ void JobShop::ParseMachinesConfig()
 	}
 }
 
-unsigned short JobShop::GetCurrentTime() const
+void JobShop::PrintResults()
 {
-	return currentTime;
-}
+	//Sort vector low to high.
+	std::sort(jobVector.begin(), jobVector.end(), [](const Job &a, const Job &b) {
+		return a.GetJobID() < b.GetJobID();
+	});
 
-void JobShop::SetCurrentTime(unsigned short aCurrentTime)
-{
-	currentTime = aCurrentTime;
-}
-
-const std::vector<Job> JobShop::GetJobVector() const
-{
-	return jobVector;
-}
-
-const std::vector<Machine> &JobShop::GetMachineVector() const
-{
-	return machineVector;
+	for (Job &j : jobVector)
+	{
+		std::cout << j.GetJobID() << " " << j.GetStartTime() << " " << j.GetEndTime() << std::endl;
+	}
 }
 
 void JobShop::PrintAllConfigData()
 {
-	for(auto &j : jobVector)
+	for (auto &j : jobVector)
 	{
 		std::cout << "JobID: " << j.GetJobID() << std::endl;
-		for(auto &t : j.GetTaskVector())
+		for (auto &t : j.GetTaskVector())
 		{
 			std::cout << "TaskID: " << t.GetTaskID() << " MachineID " << t.GetMachineID() << " TaskDuration "
-				<< t.GetTaskDuration() << " TaskScheduled " << t.GetTaskScheduled() << std::endl;
+					  << t.GetTaskDuration() << " TaskScheduled " << t.GetTaskScheduled() << std::endl;
 		}
 	}
 
-	for(auto &m : machineVector)
+	for (auto &m : machineVector)
 	{
-		std::cout << "MachineID " << m.GetMachineId() << " OccupiedUntil " << m.GetOccupiedUntil()
-			<< std::endl;
-	}
-}
-bool JobShop::AllJobsScheduled() const
-{
-
-	return std::all_of(jobVector.begin(), jobVector.end(), [](const Job &j)
-	{
-		return j.AllTasksScheduled() == true;});
-}
-
-void JobShop::PrintResults()
-{
-	//Sort vector low to high.
-	std::sort(jobVector.begin(), jobVector.end(), [](const Job &a, const Job &b)
-	{
-		return a.GetJobID() < b.GetJobID();
-	});
-	for(Job &j : jobVector)
-	{
-		std::cout << j.GetJobID() << " " << j.GetStartTime() << " " << j.GetEndTime() << std::endl;
+		std::cout << "MachineID " << m.GetMachineID() << " OccupiedUntil " << m.GetOccupiedUntil()
+				  << std::endl;
 	}
 }

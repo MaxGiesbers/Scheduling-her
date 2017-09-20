@@ -9,6 +9,11 @@ Task::~Task()
 {
 }
 
+Task::Task(const Task &aTask):
+taskID(aTask.taskID), machineID(aTask.machineID), taskDuration(aTask.taskDuration), taskScheduled(aTask.taskScheduled)
+{
+}
+
 unsigned short Task::GetTaskID() const
 {
     return taskID;
@@ -32,9 +37,4 @@ bool Task::GetTaskScheduled() const
 void Task::SetTaskScheduled(bool aTaskScheduled)
 {
     taskScheduled = aTaskScheduled;
-}
-
-Task::Task(const Task &aTask):
-	taskID(aTask.taskID), machineID(aTask.machineID), taskDuration(aTask.taskDuration), taskScheduled(aTask.taskScheduled)
-{
 }
