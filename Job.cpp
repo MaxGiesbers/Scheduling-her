@@ -1,8 +1,8 @@
 #include <regex>
 #include "Job.h"
 
-Job::Job(const std::string &mInput,unsigned short aJobID , unsigned short aStartTime, unsigned short aEndTime) :
-input(mInput), jobID(aJobID),startTime(aStartTime), endTime(aEndTime)
+Job::Job(const std::string &mInput,unsigned short aJobID , unsigned short aStartTime, unsigned short aEndTime, bool aJobScheduled) :
+input(mInput), jobID(aJobID),startTime(aStartTime), endTime(aEndTime), jobScheduled(aJobScheduled)
 {
 	ParseTaskConfig();
 }
@@ -44,9 +44,11 @@ void Job::ParseTaskConfig()
 unsigned short Job::ReturnTotalTime() const
 {
 	unsigned short totalTime = 0;
-	for(auto &e : taskVector)
+	for(auto &aTask : taskVector)
 	{
-		totalTime += e.GetTaskDuration();
+		if(aTask.GetTaskScheduled()==false){
+			totalTime += aTask.GetTaskDuration();
+		}
 	}
 	return totalTime;
 }
@@ -56,14 +58,6 @@ std::vector<Task> &Job::GetTaskVector()
 	return taskVector;
 }
 
-Job &Job::operator=(const Job &b)
-{
-	if (this != &b)
-	{
-		jobID = b.jobID;
-	}
-	return *this;
-}
 
 unsigned short Job::GetEndTime() const
 {
@@ -117,4 +111,14 @@ void Job::SetTask(unsigned short taskID)
 			t.SetTaskScheduled(true);
 		}
 	}
+}
+
+bool Job::getJobScheduled() const
+{
+	return jobScheduled;
+}
+
+void Job::setJobScheduled(bool aJobScheduled)
+{
+	jobScheduled = aJobScheduled;
 }
