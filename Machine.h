@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name="aMachineID">ID to find individual machines</param>
 	/// <param name="anOccupiedUntil">Time until the machine is currently running a task</param>
-	Machine(unsigned short aMachineID = 0, unsigned short anOccupiedUntil = 0);
+	Machine(const unsigned short aMachineID = 0, unsigned short anOccupiedUntil = 0);
 
 	/// <summary>
 	/// Destructor

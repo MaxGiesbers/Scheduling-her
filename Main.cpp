@@ -3,12 +3,11 @@
 #include "JobShop.h"
 
 /* TODO
-- Check break at end of algorithm
 - Short check at algorithm
 - Parse file with tabs
+- =0 check
 - Return task by reference GetFirstUnscheduledTask()
 - Delete PrintAllConfigData()
-- Doxygen and comments
 */
 
 int main(int argc, char **argv)

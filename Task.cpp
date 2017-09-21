@@ -1,6 +1,6 @@
 #include "Task.h"
 
-Task::Task(unsigned short aTaskID, unsigned short aMachineID, unsigned short aTaskDuration, bool aTaskScheduled)
+Task::Task(const unsigned short aTaskID, unsigned short aMachineID, unsigned short aTaskDuration, bool aTaskScheduled)
     : taskID(aTaskID), machineID(aMachineID), taskDuration(aTaskDuration), taskScheduled(aTaskScheduled)
 {
 }
