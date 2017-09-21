@@ -6,8 +6,6 @@ JobShop::JobShop(const std::string &anInput, unsigned short aCurrentTime)
 {
 	ParseJobsConfig();
 	ParseMachinesConfig();
-
-	//PrintAllConfigData();
 	RunSchedulingAlgorithm();
 }
 
@@ -26,24 +24,27 @@ void JobShop::RunSchedulingAlgorithm()
 		{
 			for (auto &j : jobVector)
 			{
-				//take the values of the first unscheduled task from the job
-				Task currentTask = j.GetFirstUnscheduledTask();
-
-				//check if the machine matched with the task and if the machine is not occupied				
-				//also check if the job is not running a task at this moment
-				if (currentTask.GetMachineID() == m.GetMachineID() && CheckAvailableMachines(m.GetMachineID()) 
-					&& currentTime >= j.GetEndTime() && currentTask.GetTaskDuration() != 0)
+				//if job is already done it doesn't need to be scheduled
+				if (!j.AllTasksScheduled())
 				{
-					//start job if it is not started yet
-					if (!j.GetJobScheduled())
-					{
-						j.StartJob(currentTime);
-					}
-					//update the machine and job time and set the selected task as scheduled
-					m.SetOccupiedUntil(currentTime + currentTask.GetTaskDuration());
-					j.ScheduleTask(currentTask.GetTaskID(), currentTask.GetTaskDuration() + currentTime);
+					//take the values of the first unscheduled task from the job
+					Task t = j.GetFirstUnscheduledTask();
 
-					break;
+					//check if the machine matched with the task and if the machine is not occupied
+					//also check if the job is not running a task at this moment
+					if (t.GetMachineID() == m.GetMachineID() && CheckAvailableMachines(m.GetMachineID()) && currentTime >= j.GetEndTime() && t.GetTaskDuration() != 0)
+					{
+						//start job if it is not started yet
+						if (!j.GetJobScheduled())
+						{
+							j.StartJob(currentTime);
+						}
+						//update the machine and job time and set the selected task as scheduled
+						m.SetOccupiedUntil(currentTime + t.GetTaskDuration());
+						j.ScheduleTask(t.GetTaskID(), t.GetTaskDuration() + currentTime);
+
+						break;
+					}
 				}
 			}
 		}
@@ -129,24 +130,5 @@ void JobShop::PrintResults()
 	for (Job &j : jobVector)
 	{
 		std::cout << j.GetJobID() << "\t" << j.GetStartTime() << "\t" << j.GetEndTime() << std::endl;
-	}
-}
-
-void JobShop::PrintAllConfigData()
-{
-	for (auto &j : jobVector)
-	{
-		std::cout << "JobID: " << j.GetJobID() << std::endl;
-		for (auto &t : j.GetTaskVector())
-		{
-			std::cout << "TaskID: " << t.GetTaskID() << " MachineID " << t.GetMachineID() << " TaskDuration "
-					  << t.GetTaskDuration() << " TaskScheduled " << t.GetTaskScheduled() << std::endl;
-		}
-	}
-
-	for (auto &m : machineVector)
-	{
-		std::cout << "MachineID " << m.GetMachineID() << " OccupiedUntil " << m.GetOccupiedUntil()
-				  << std::endl;
 	}
 }

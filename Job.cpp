@@ -1,8 +1,8 @@
 #include <regex>
 #include "Job.h"
 
-Job::Job(const std::string &anInput, const unsigned short aJobID, unsigned short aStartTime, unsigned short aEndTime, bool aJobScheduled) 
-: input(anInput), jobID(aJobID), startTime(aStartTime), endTime(aEndTime), jobScheduled(aJobScheduled)
+Job::Job(const std::string &anInput, const unsigned short aJobID, unsigned short aStartTime, unsigned short aEndTime, bool aJobScheduled)
+	: input(anInput), jobID(aJobID), startTime(aStartTime), endTime(aEndTime), jobScheduled(aJobScheduled)
 {
 	ParseTaskConfig();
 }
@@ -14,11 +14,12 @@ Job::~Job()
 unsigned short Job::GetTotalJobTime() const
 {
 	unsigned short totalTime = 0;
-	for (auto &aTask : taskVector)
+
+	for (auto &t : taskVector)
 	{
-		if (aTask.GetTaskScheduled() == false)
+		if (t.GetTaskScheduled() == false)
 		{
-			totalTime += aTask.GetTaskDuration();
+			totalTime += t.GetTaskDuration();
 		}
 	}
 	return totalTime;
@@ -29,16 +30,16 @@ bool Job::AllTasksScheduled() const
 	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task &t) { return t.GetTaskScheduled() == true; });
 }
 
-Task Job::GetFirstUnscheduledTask()
+Task &Job::GetFirstUnscheduledTask()
 {
-	for (auto t : taskVector)
+	auto firstUnscheduled = std::find_if(taskVector.begin(), taskVector.end(),
+								 [](const Task &t) { return !t.GetTaskScheduled(); });
+
+	if (firstUnscheduled == taskVector.end())
 	{
-		if (t.GetTaskScheduled() == false)
-		{
-			return t;
-		}
+		return taskVector.back();
 	}
-	return 0;
+	return *firstUnscheduled;
 }
 
 void Job::StartJob(unsigned short aStartTime)
@@ -49,13 +50,7 @@ void Job::StartJob(unsigned short aStartTime)
 
 void Job::ScheduleTask(unsigned short taskID, unsigned short anEndTime)
 {
-	for (auto &t : taskVector)
-	{
-		if (t.GetTaskID() == taskID)
-		{
-			t.SetTaskScheduled(true);
-		}
-	}
+	std::for_each(taskVector.begin(), taskVector.end(), [taskID](Task &t) { if(t.GetTaskID()==taskID){t.SetTaskScheduled();}; });
 	endTime = anEndTime;
 }
 

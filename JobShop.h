@@ -65,11 +65,6 @@ class JobShop
 	/// </summary>
 	void PrintResults();
 
-	/// <summary>
-	/// Print variables of all jobs, tasks and machines
-	/// </summary>
-	void PrintAllConfigData();
-
   public:
 	/// <summary>
 	/// Constructor with for creating JobShop class

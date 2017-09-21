@@ -75,7 +75,7 @@ public:
 	/// Find first unscheduled task in taskVector from one job
 	/// </summary>
 	/// <returns>Returns a task object</returns>
-	Task GetFirstUnscheduledTask();
+	Task& GetFirstUnscheduledTask();
 
 	/// <summary>
 	/// Set the startTime of the job and set the job a started so the startTime can only be set once

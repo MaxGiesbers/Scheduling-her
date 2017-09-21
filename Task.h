@@ -69,8 +69,7 @@ public:
   bool GetTaskScheduled() const;
 
   /// <summary>
-  /// Setter for taskScheduled
+  /// Set task as scheduled
   /// </summary>
-  /// <param name="aStartTime">taskScheduled will be set to this value</param>
-  void SetTaskScheduled(bool aTaskScheduled);
+  void SetTaskScheduled();
 };

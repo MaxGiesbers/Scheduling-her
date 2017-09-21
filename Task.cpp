@@ -34,7 +34,7 @@ bool Task::GetTaskScheduled() const
     return taskScheduled;
 }
 
-void Task::SetTaskScheduled(bool aTaskScheduled)
+void Task::SetTaskScheduled()
 {
-    taskScheduled = aTaskScheduled;
+    taskScheduled = true;
 }
