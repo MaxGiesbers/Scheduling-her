@@ -6,6 +6,19 @@
 
 class JobShop
 {
+  public:
+	/// <summary>
+	/// Constructor with for creating JobShop class
+	/// </summary>
+	/// <param name="anInput">String created by the configuration file</param>
+	/// <param name="aCurrentTime">Time to use when running the scheduling algorithm</param>
+	JobShop(const std::string &anInput = "", unsigned short aCurrentTime = 0);
+
+	/// <summary>
+	/// Destructor
+	/// </summary>
+	virtual ~JobShop();
+
   private:
 	/// <summary>
 	/// String created by the configuration file
@@ -64,17 +77,4 @@ class JobShop
 	/// Print all results for the output file
 	/// </summary>
 	void PrintResults();
-
-  public:
-	/// <summary>
-	/// Constructor with for creating JobShop class
-	/// </summary>
-	/// <param name="anInput">String created by the configuration file</param>
-	/// <param name="aCurrentTime">Time to use when running the scheduling algorithm</param>
-	JobShop(const std::string &anInput = "", unsigned short aCurrentTime = 0);
-
-	/// <summary>
-	/// Destructor
-	/// </summary>
-	virtual ~JobShop();
 };

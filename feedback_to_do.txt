@@ -1,0 +1,8 @@
+- Het inlezen van configuraties gaat alleen goed als de taken gescheiden zijn met spaties. In de opgave staat dat de scheiding door 'whitespaces' gebeurt, dat kunnen ook tabs zijn bijv. of meerdere spaties. Zie onderwijsonline (OSM-Software -> Opdracht 'Programmeren algoritme') voor een paar voorbeeldconfiguraties. De laatste is gescheiden door tabs.
+
+- Controleer of je overal de const goed hebt staan (parameters, methoden, returnwaarden)
+- Je stop Job in een vector, maar geen copy-constructor?
+- JobShop.cpp R35: t.GetTaskDuration() != 0 waarom die controle?
+
+- currentTime is een instantie attribuut. Is dat persé nodig?
+- Jullie verhogen de tijd steeds met +1. Kan dat niet efficiënter? Als je weet dat de eerst volgende machine op t=20 vrijkomt, dan hoef je toch niet van 1 t/m 19 te doorlopen?

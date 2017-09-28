@@ -27,13 +27,16 @@ unsigned short Job::GetTotalJobTime() const
 
 bool Job::AllTasksScheduled() const
 {
-	return std::all_of(taskVector.begin(), taskVector.end(), [=](const Task &t) { return t.GetTaskScheduled() == true; });
+	if (taskVector.back().GetTaskScheduled())
+		return true;
+
+	return false;
 }
 
 Task &Job::GetFirstUnscheduledTask()
 {
 	auto firstUnscheduled = std::find_if(taskVector.begin(), taskVector.end(),
-								 [](const Task &t) { return !t.GetTaskScheduled(); });
+										 [](const Task &t) { return !t.GetTaskScheduled(); });
 
 	if (firstUnscheduled == taskVector.end())
 	{

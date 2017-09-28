@@ -2,27 +2,6 @@
 
 class Task
 {
-private:
-  /// <summary>
-  /// ID to find individual tasks
-  /// </summary>
-  unsigned short taskID;
-
-  /// <summary>
-  /// ID of the machine which is linked to the task
-  /// </summary>
-  unsigned short machineID;
-
-  /// <summary>
-  /// Duration of the task
-  /// </summary>
-  unsigned short taskDuration;
-
-  /// <summary>
-  /// True when task is scheduled, false when otherwise
-  /// </summary>
-  bool taskScheduled;
-
 public:
   /// <summary>
   /// Constructor with for creating Task class
@@ -72,4 +51,25 @@ public:
   /// Set task as scheduled
   /// </summary>
   void SetTaskScheduled();
+
+private:
+  /// <summary>
+  /// ID to find individual tasks
+  /// </summary>
+  unsigned short taskID;
+
+  /// <summary>
+  /// ID of the machine which is linked to the task
+  /// </summary>
+  unsigned short machineID;
+
+  /// <summary>
+  /// Duration of the task
+  /// </summary>
+  unsigned short taskDuration;
+
+  /// <summary>
+  /// True when task is scheduled, false when otherwise
+  /// </summary>
+  bool taskScheduled;
 };

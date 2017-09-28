@@ -2,18 +2,7 @@
 
 class Machine
 {
-private:
-	/// <summary>
-	/// ID to find individual machines
-	/// </summary>
-	const unsigned short machineID;
-
-	/// <summary>
-	/// Time until the machine is currently running a task
-	/// </summary>
-	unsigned short occupiedUntil;
-
-public:
+  public:
 	/// <summary>
 	/// Constructor with for creating Machine class
 	/// </summary>
@@ -43,4 +32,15 @@ public:
 	/// </summary>
 	/// <param name="machineNumber">The occupiedUntil from this machine will be set to this time</param>
 	void SetOccupiedUntil(unsigned short anOccupiedUntil);
+
+  private:
+	/// <summary>
+	/// ID to find individual machines
+	/// </summary>
+	const unsigned short machineID;
+
+	/// <summary>
+	/// Time until the machine is currently running a task
+	/// </summary>
+	unsigned short occupiedUntil;
 };

@@ -7,42 +7,6 @@
 
 class Job
 {
-private:
-	/// <summary>
-	/// Vector that contains all the tasks from a job
-	/// </summary>
-	std::vector<Task> taskVector;
-
-	/// <summary>
-	/// String created by the configuration file containing all data for one specific job
-	/// </summary>
-	std::string input;
-
-	/// <summary>
-	/// ID to find individual jobs
-	/// </summary>
-	unsigned short jobID;
-
-	/// <summary>
-	/// Time on that will be set once the job has started
-	/// </summary>
-	unsigned short startTime;
-
-	/// <summary>
-	/// Time that will be updated every time a task is scheduled
-	/// </summary>
-	unsigned short endTime;
-
-	/// <summary>
-	/// Turns true when the first task of the job is scheduled
-	/// </summary>
-	bool jobScheduled;
-
-	/// <summary>
-	/// Parse config file and create tasks
-	/// </summary>
-	void ParseTaskConfig();
-
 public:
 	/// <summary>
 	/// Constructor with for creating Job class
@@ -119,4 +83,40 @@ public:
 	/// </summary>
 	/// <returns>Returns bool jobScheduled</returns>
 	bool GetJobScheduled() const;
+	
+private:
+	/// <summary>
+	/// Vector that contains all the tasks from a job
+	/// </summary>
+	std::vector<Task> taskVector;
+
+	/// <summary>
+	/// String created by the configuration file containing all data for one specific job
+	/// </summary>
+	std::string input;
+
+	/// <summary>
+	/// ID to find individual jobs
+	/// </summary>
+	unsigned short jobID;
+
+	/// <summary>
+	/// Time on that will be set once the job has started
+	/// </summary>
+	unsigned short startTime;
+
+	/// <summary>
+	/// Time that will be updated every time a task is scheduled
+	/// </summary>
+	unsigned short endTime;
+
+	/// <summary>
+	/// Turns true when the first task of the job is scheduled
+	/// </summary>
+	bool jobScheduled;
+
+	/// <summary>
+	/// Parse config file and create tasks
+	/// </summary>
+	void ParseTaskConfig();
 };
