@@ -16,6 +16,12 @@ class Machine
 	virtual ~Machine();
 
 	/// <summary>
+	/// Copy constructor for Machine
+	/// </summary>
+	/// <param name="aMachine">Machine that needs to be copied</param>
+	Machine(const Machine &aMachine);
+
+	/// <summary>
 	/// Getter for machineID
 	/// </summary>
 	/// <returns>Returns unsigned short machineID</returns>

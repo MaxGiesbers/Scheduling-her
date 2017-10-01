@@ -24,6 +24,12 @@ public:
 	virtual ~Job();
 
 	/// <summary>
+	/// Copy constructor for Job
+	/// </summary>
+	/// <param name="aJob">Job that needs to be copied</param>
+	Job(const Job &aJob);
+
+	/// <summary>
 	/// Adds all the taskdurations from one job to a variable
 	/// </summary>
 	/// <returns>Returns added taskdurations of one job</returns>
@@ -39,7 +45,7 @@ public:
 	/// Find first unscheduled task in taskVector from one job
 	/// </summary>
 	/// <returns>Returns a task object</returns>
-	Task& GetFirstUnscheduledTask();
+	const Task& GetFirstUnscheduledTask() const;
 
 	/// <summary>
 	/// Set the startTime of the job and set the job a started so the startTime can only be set once

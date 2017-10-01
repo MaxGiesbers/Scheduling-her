@@ -55,7 +55,7 @@ class JobShop
 	/// </summary>
 	/// <param name="machineNumber">The machineID that needs to be checked</param>
 	/// <returns>Returns true when the machine is available to schedule a task</returns>
-	bool CheckAvailableMachines(unsigned short machineNumber);
+	bool CheckAvailableMachines(unsigned short machineNumber) const;
 
 	/// <summary>
 	/// Check if all tasks from all jobs are scheduled

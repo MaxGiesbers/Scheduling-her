@@ -29,14 +29,13 @@ void JobShop::RunSchedulingAlgorithm()
 				{
 					//check if the machine matched with the task and if the machine is not occupied
 					//also check if the job is not running a task at this moment
-					if (j.GetFirstUnscheduledTask().GetMachineID() == m.GetMachineID() && CheckAvailableMachines(m.GetMachineID()) && 
-						currentTime >= j.GetEndTime() && j.GetFirstUnscheduledTask().GetTaskDuration() != 0)
+					if (j.GetFirstUnscheduledTask().GetMachineID() == m.GetMachineID() && CheckAvailableMachines(m.GetMachineID()) &&
+						currentTime >= j.GetEndTime())
 					{
 						//start job if it is not started yet
 						if (!j.GetJobScheduled())
-						{
 							j.StartJob(currentTime);
-						}
+
 						//update the machine and job time and set the selected task as scheduled
 						m.SetOccupiedUntil(currentTime + j.GetFirstUnscheduledTask().GetTaskDuration());
 						j.ScheduleTask(j.GetFirstUnscheduledTask().GetTaskID(), j.GetFirstUnscheduledTask().GetTaskDuration() + currentTime);
@@ -46,7 +45,7 @@ void JobShop::RunSchedulingAlgorithm()
 				}
 			}
 		}
-		currentTime++;
+		++currentTime;
 	}
 	PrintResults();
 }
@@ -60,7 +59,7 @@ void JobShop::SortJobs()
 			  });
 }
 
-bool JobShop::CheckAvailableMachines(unsigned short machineNumber)
+bool JobShop::CheckAvailableMachines(unsigned short machineNumber) const
 {
 	for (auto &m : machineVector)
 	{

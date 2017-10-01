@@ -1,12 +1,16 @@
 #include "Machine.h"
-#include <iostream>
 
 Machine::Machine(const unsigned short aMachineID, unsigned short anOccupiedUntil)
-:machineID(aMachineID), occupiedUntil(anOccupiedUntil)
+	: machineID(aMachineID), occupiedUntil(anOccupiedUntil)
 {
 }
 
 Machine::~Machine()
+{
+}
+
+Machine::Machine(const Machine &aMachine)
+	: machineID(aMachine.machineID), occupiedUntil(aMachine.occupiedUntil)
 {
 }
 
