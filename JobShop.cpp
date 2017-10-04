@@ -79,7 +79,8 @@ bool JobShop::AllJobsScheduled() const
 
 void JobShop::ParseJobsConfig()
 {
-	std::regex rgx("[0-9 ]+");
+	input.append("\n");
+	std::regex rgx(".*\r?\n");
 	std::regex_iterator<std::string::iterator> regexIterator(input.begin(), input.end(), rgx);
 	std::regex_iterator<std::string::iterator> regexEnd;
 	unsigned short matches = 0;
